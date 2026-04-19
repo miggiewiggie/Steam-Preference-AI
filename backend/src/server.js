@@ -1,19 +1,22 @@
 import dotenv from "dotenv";
 import express from "express";
-import steamRoutes from "./routes/steamRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
+import cors from "cors";
 
+import steamRoutes from "./routes/steamRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
+
+const PORT = parseInt(process.env.BACKEND_PORT);
 
 const app = express();
 app.use(express.json());
 
-app.use("/api/steam", steamRoutes);
-app.use("/api/user", userRoutes);
+app.use(cors());
+app.use("/steam", steamRoutes);
+app.use("/auth", authRoutes);
 
 
-const PORT = 5000;
 
 app.listen(PORT, () => {
     console.log("Server started on PORT:", PORT);
