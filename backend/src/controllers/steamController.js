@@ -1,4 +1,6 @@
 import axios from "axios";
+import passport from "passport";
+import {Strategy as SteamStrategy} from "passport-steam";
 
 export async function getOwnedGames(req, res){
 
