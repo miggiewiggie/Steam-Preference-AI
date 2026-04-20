@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { getSteamGames, scoreGames } from "../services/gameServices.js";
 import { generateGameRecommendation } from "../services/geminiServices.js";
 import { buildUserProfile } from "../services/userServices.js";
+import { storeUserProfile } from "../services/dbServices.js";
 
 dotenv.config();
 
@@ -37,20 +38,22 @@ export async function steamReturn(req, res){
   try {
     const user = await steam.authenticate(req);
 
-   
-
-
     const steamid = user.steamid;
-
-   
 
     const { games, topPlayed, recentPlayed } = await getSteamGames(steamid);
 
     const userProfile = buildUserProfile(games);
 
+    await storeUserProfile({
+      steamid,
+      userProfile
+    })
+
     const rankedGames = scoreGames(games);
 
     const top5 = rankedGames.slice(0, 5);
+
+
 
     //const aiText = await generateGameRecommendation(userProfile);
 
