@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 
+import { connectDB } from "./services/dbServices.js";
+
 import steamRoutes from "./routes/steamRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
@@ -17,7 +19,8 @@ app.use("/steam", steamRoutes);
 app.use("/auth", authRoutes);
 
 
-
-app.listen(PORT, () => {
-    console.log("Server started on PORT:", PORT);
+connectDB().then(()=> {
+    app.listen(PORT, () => {
+        console.log("Server started on PORT:", PORT);
+    });
 });

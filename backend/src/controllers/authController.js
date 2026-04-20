@@ -52,12 +52,10 @@ export async function steamReturn(req, res){
 
     const top5 = rankedGames.slice(0, 5);
 
-    console.log(userProfile);
+    //const aiText = await generateGameRecommendation(userProfile);
 
-    const aiText = await generateGameRecommendation(userProfile);
+    const aiText = "AI turned off"
 
-    console.log("This works0");
-    console.log(userProfile);
 
    res.send(`
   <html>
