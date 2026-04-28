@@ -4,6 +4,7 @@ import { getSteamGames, scoreGames } from "../services/gameServices.js";
 import { generateGameRecommendation } from "../services/geminiServices.js";
 import { buildUserProfile } from "../services/userServices.js";
 import { storeUserProfile } from "../services/dbServices.js";
+import { addImagesToGames } from "../services/steamGridService.js";
 
 dotenv.config();
 
@@ -44,6 +45,12 @@ export async function steamReturn(req, res){
 
     const userProfile = buildUserProfile(games);
 
+    const topGamesWithImages = await addImagesToGames(userProfile.topGames);
+    const recentGamesWithImages = await addImagesToGames(userProfile.recentGames);
+
+    userProfile.topGames = topGamesWithImages;
+    userProfile.recentGames = recentGamesWithImages;
+
     await storeUserProfile({
       steamid,
       userProfile
@@ -53,9 +60,7 @@ export async function steamReturn(req, res){
 
     const top5 = rankedGames.slice(0, 5);
 
-
-
-    //const aiText = await generateGameRecommendation(userProfile);
+    //const aiJSON = await generateGameRecommendation(userProfile);
 
     const aiText = "AI turned off"
 

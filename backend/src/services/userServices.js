@@ -7,7 +7,7 @@ export function buildUserProfile(games) {
       name: game.name,
       appid: game.appid,
       hours,
-      recentHours
+      recentHours,
     };
   });
 

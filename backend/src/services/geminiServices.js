@@ -28,10 +28,28 @@ export async function generateGameRecommendation(userProfile) {
       }
 
       Task:
-      1. Recommend 3 games they should play next
-      2. Explain why based on their habits
-      3. Keep it short, friendly, and not repetitive
-      4. Compare top played games with recently played games to see the trend of games 
+      Return ONLY valid JSON in this format:
+      {
+        "recommendations": [
+          {
+            "rank": 1,
+            "name": "Game Name",
+            "reason": "Short explanation"
+          },
+          {
+            "rank": 2,
+            "name": "Game Name",
+            "reason": "Short explanation"
+          },
+          {
+            "rank": 3,
+            "name": "Game Name",
+            "reason": "Short explanation"
+          }
+        ]
+      }
+
+      Do not include any extra text outside JSON.
   `;
 
   
@@ -57,6 +75,14 @@ export async function generateGameRecommendation(userProfile) {
   const data = await response.json();
 
   console.log("GEMINI RESPONSE:", JSON.stringify(data, null, 2));
+  
+  try {
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    parsed = JSON.parse(text);
+  } catch (err) {
+    console.error("Failed to parse AI response", err);
+    parsed = { recommendations: [] };
+  }
 
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || "No recommendation generated.";
+  return parsed || "No recommendation generated.";
 }

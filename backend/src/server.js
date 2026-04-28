@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 
 const PORT = parseInt(process.env.BACKEND_PORT);
+const BACKEND_ROUTE = process.env.BACKEND_ROUTE;
 
 const app = express();
 app.use(express.json());
@@ -22,5 +23,6 @@ app.use("/auth", authRoutes);
 connectDB().then(()=> {
     app.listen(PORT, () => {
         console.log("Server started on PORT:", PORT);
+        console.log(`Access Link: ${BACKEND_ROUTE}/auth/steam `);
     });
 });

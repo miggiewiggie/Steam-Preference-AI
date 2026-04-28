@@ -1,5 +1,5 @@
 import axios from "axios";
-import {} from "../services/gameServices.js";
+import { getSteamGames } from "../services/gameServices.js";
 
 export async function getOwnedGames(req, res){
 

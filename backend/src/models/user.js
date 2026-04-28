@@ -5,6 +5,7 @@ const gameSchema = new mongoose.Schema({
   name: String,
   hours: Number,
   recentHours: Number,
+  image: String
 });
 
 const userSchema = new mongoose.Schema({
